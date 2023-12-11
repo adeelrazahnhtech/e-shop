@@ -16,8 +16,8 @@ class RedirectIfSubAdminAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::guard('seller')->check()){
-            return redirect()->route('seller.dashboard');
+        if(Auth::guard('sub_admin')->check()){
+            return redirect()->route('sub_admin.dashboard');
         }
         return $next($request);
     }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>E-Shop </title>
+    <title>E-Shop</title>
       <!-- Google Font: Source Sans Pro -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 		<!-- Font Awesome -->
@@ -43,8 +43,8 @@
                         <img src="{{ asset('admin-assets/img/avatar5.png')}}" class='img-circle elevation-2' width="40" height="40" alt="">
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3">
-                        <h4 class="h4 mb-0"><strong>{{ Auth::guard('admin')->user()->first_name}}</strong></h4> 
-                        <div class="mb-3">{{ Auth::guard('admin')->user()->email}}</div> 
+                        <h4 class="h4 mb-0"><strong>{{ Auth::guard('sub_admin')->user()->first_name}}</strong></h4> 
+                        <div class="mb-3">{{ Auth::guard('sub_admin')->user()->email}}</div> 
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
                             <i class="fas fa-user-cog mr-2"></i> Settings								
@@ -54,7 +54,7 @@
                             <i class="fas fa-lock mr-2"></i> Change Password
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="{{  route('admin.logout')  }}" class="dropdown-item text-danger">
+                        <a href="{{  route('sub_admin.logout')  }}" class="dropdown-item text-danger">
                             <i class="fas fa-sign-out-alt mr-2"></i> Logout							
                         </a>							
                     </div>

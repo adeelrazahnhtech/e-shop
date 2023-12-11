@@ -14,11 +14,11 @@ class SellerAuthenticate extends Middleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function authenticate($request, array $guards)
     {
-        if(!auth()->guard('seller')->check()){
-            return redirect()->back();
+        if(auth()->guard('seller')->check()){
+            auth()->shouldUse('seller');
          }
-         return $next($request);
+         $this->authenticate($request, ['seller']);
     }
 }

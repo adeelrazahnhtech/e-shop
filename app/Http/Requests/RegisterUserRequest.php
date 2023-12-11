@@ -3,11 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Rules\MinCharacter;
-use App\Rules\MinValue;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class RegisterSubAdminRequest extends FormRequest
+class RegisterUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +26,7 @@ class RegisterSubAdminRequest extends FormRequest
         return [
             'first_name'  => ['required',new MinCharacter(3)],
             'last_name'  => ['required',new MinCharacter(3)],
-            'email'      => 'required|email|unique:sub_admins',
+            'email'      => 'required|email|unique:users',
             'password'   => ['required','confirmed', Password::min(5)],
             'role'      => 'required',
          ];

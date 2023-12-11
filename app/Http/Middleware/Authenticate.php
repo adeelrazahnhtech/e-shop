@@ -18,12 +18,12 @@ class Authenticate extends Middleware
         return $request->expectsJson() ? null : route('login');
     }
 
-    public function authenticate(Request $request, Closure $next): Response
+    public function authenticate($request, array $guards)
     {
-        if(!Auth::guard('user')->check()){
+        if(Auth::guard('user')->check()){
           
-            return redirect()->back();
+           auth()->shouldUse('user');
         }
-        return $next($request);
+        $this->authenticate($request, ['user']);
     }
 }

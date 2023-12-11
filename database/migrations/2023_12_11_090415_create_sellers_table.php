@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->boolean('email_verified_at')->nullable();
+            $table->string('token')->nullable();
             $table->string('password');
-            $table->rememberToken();
             $table->timestamps();
             $table->foreign('role')->references('id')->on('roles')->onDelete('cascade');
         });

@@ -21,10 +21,10 @@ class AdminController extends Controller
         }
         if(auth('admin')->attempt([ 'email' => $request->email, 'password'=> $request->password])){
              $admin = auth()->guard('admin')->user();
-            if($admin->role == 1){
+            if($admin->role == 1 && $admin->email_verified_at == 1){
                 return redirect()->route('admin.dashboard');
             }else{
-                $admin->logout();
+                auth('admin')->logout();
                 return redirect()->route('admin.login')->with('error','you are not authorized to use access the admin panel');
             }
 
@@ -39,7 +39,8 @@ class AdminController extends Controller
       return view('admin.dashboard');
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login')->with('success','Logged out successfully!');
     }

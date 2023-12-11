@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laravel Shop :: Sub Admin Panel</title>
+    <title>Laravel Shop :: User Panel</title>
     <!-- Google Font: Source Sans Pro -->
     {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
     <!-- Font Awesome -->
@@ -20,11 +20,11 @@
         @include('message')
         <div class="card card-outline card-primary">
               <div class="card-header text-center">
-                <a href="#" class="h3">Sub Admin Panel</a>
+                <a href="#" class="h3">User Panel</a>
               </div>
               <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <form action="{{ route('sub_admin.process') }}" method="post">
+                <form action="{{ route('user.process') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="text" value="{{ old('first_name')}}" name="first_name" id="first_name" class="form-control" placeholder="first_name">

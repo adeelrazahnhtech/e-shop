@@ -14,11 +14,11 @@ class SubAdminAuthenticate extends Middleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function authenticate($request, array $guards)
     {
-        if(!auth()->guard('sub_admin')->check()){
-            return redirect()->back();
+        if(auth()->guard('sub_admin')->check()){
+          auth()->shouldUse('sub_admin');
          }
-         return $next($request);
+         $this->authenticate($request, ['sub_admin']);
     }
 }
