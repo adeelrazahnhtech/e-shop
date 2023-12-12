@@ -21,7 +21,7 @@ class SubAdmin extends Authenticatable
       'password',
     ];
 
-    public function role()
+    public function roleType()
     {
       return $this->belongsTo(Role::class,'role','id');
     }

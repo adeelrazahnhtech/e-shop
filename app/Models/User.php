@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-     public function role()
+     public function roleType()
      {
        return $this->belongsTo(Role::class,'role','id');
      }

@@ -6,19 +6,18 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SellerAuthenticate 
+class UserAuthenticate
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle($request, Closure $next): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        if(!auth()->guard('seller')->check()){
-            return redirect()->back();
-         }
-         return $next($request);
-       
+        if(auth()->guard('user')->check()){
+            return $next($request);
+        }
+        return redirect()->route('user.login');
     }
 }

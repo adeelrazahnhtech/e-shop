@@ -36,8 +36,19 @@ Route::group(['prefix' => 'admin'],function(){
         //category
         Route::resource('categories',CategoryController::class);
 
-        //permission
-        Route::get('/users',[PermissionController::class,'index'])->name('user');
+        //permission user
+        Route::get('/users', [PermissionController::class, 'index'])->name('admin.user');
+        Route::get('/user-approved/{userId}', [PermissionController::class, 'approved'])->name('customer.approved');
+        Route::get('/user-disapprove/{userId}', [PermissionController::class, 'disApprove'])->name('customer.disapproved');
+        //permission sub admin
+        Route::get('/sub-admins',[PermissionController::class,'subAdmin'])->name('admin.sub_admin');
+        Route::get('/sub-approved/{subAdminId}', [PermissionController::class, 'approvedSubAdmin'])->name('sub_admin.approved');
+        Route::get('/sub-disapprove/{subAdminId}', [PermissionController::class, 'disApproveSubAdmin'])->name('sub_admin.disapproved');
+       //permission seller
+        Route::get('/sellers',[PermissionController::class,'seller'])->name('admin.seller');
+        Route::get('/seller-approved/{sellerId}', [PermissionController::class, 'approvedSeller'])->name('seller.approved');
+        Route::get('/seller-disapprove/{sellerId}', [PermissionController::class, 'disApproveSeller'])->name('seller.disapproved');
+
     });
 });
 

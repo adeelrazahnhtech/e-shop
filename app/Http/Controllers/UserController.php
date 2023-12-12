@@ -32,7 +32,7 @@ class UserController extends Controller
  
         //queues
         dispatch(new SendEmailUserJob($user));
-        return redirect()->route('user.register')->with('success','Account register please wait for account approval');
+        return redirect()->route('user.login')->with('success','Account register please wait for account approval');
     }
 
     public function login()
@@ -56,7 +56,7 @@ class UserController extends Controller
           }
 
         }else{
-            return redirect()->route('user.login ')->with('error','Invalid Email/Password is incorrect');
+            return redirect()->route('user.login')->with('error','Invalid Email/Password is incorrect');
         }
 
     }
@@ -64,12 +64,12 @@ class UserController extends Controller
 
     public function profile()
     {
-        dd("okay");
+        Auth::guard('user')->logout();
         //showing the products
-       return view('user.profile');
+        return view('user.profile');
     }
-
-
+    
+    
     public function logout()
     {
         Auth::guard('user')->logout();

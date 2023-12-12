@@ -21,8 +21,20 @@
                         <p>Category</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.sub_admin')}}" class="nav-link">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Sub Admin</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.seller')}}" class="nav-link">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Seller</p>
+                    </a>
+                </li>
                  <li class="nav-item">
-                    <a href="{{ route('user')}}" class="nav-link">
+                    <a href="{{ route('admin.user')}}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>User</p>
                     </a>
