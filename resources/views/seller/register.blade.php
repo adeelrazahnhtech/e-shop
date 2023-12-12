@@ -20,11 +20,11 @@
         @include('message')
         <div class="card card-outline card-primary">
               <div class="card-header text-center">
-                <a href="#" class="h3">User Panel</a>
+                <a href="#" class="h3">Seller Panel</a>
               </div>
               <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <form action="{{ route('user.process') }}" method="post">
+                <form action="{{ route('seller.process') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="text" value="{{ old('first_name')}}" name="first_name" id="first_name" class="form-control" placeholder="first_name">

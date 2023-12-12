@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RegisterSubAdmin;
 use App\Http\Requests\AuthenticateSubAdminRequest;
 use App\Http\Requests\RegisterSubAdminRequest;
 use App\Mail\RegisterSubAdminEmail;
@@ -29,7 +30,8 @@ class SubAdminController extends Controller
         $validatedData['token'] = uniqid();
         $user = SubAdmin::create($validatedData);
 
-        Mail::to($user->email)->send(new RegisterUserEmail($user));
+        //event and listener
+        event(new RegisterSubAdmin($user->id));
         return redirect()->route('sub_admin.register')->with('success','Account register please wait for account approval');
 
     }
@@ -45,7 +47,8 @@ class SubAdminController extends Controller
 
         if(auth('sub_admin')->attempt(['email'=> $request->email,'password' => $request->password]))
         {
-          $sub_admin =  auth('sub_admin')->user();
+          $sub_admin =  auth()->guard('sub_admin')->user();
+          dd($sub_admin);
           if($sub_admin->role == 2 && $sub_admin->email_verified_at == 1)
           {
             return redirect()->route('sub_admin.dashboard');
@@ -56,7 +59,7 @@ class SubAdminController extends Controller
 
         }else
         {
-            return redirect()->route('sub_admin.login ')->with('error','Invalid Email/Password is incorrect');
+            return redirect()->route('sub_admin.login')->with('error','Invalid Email/Password is incorrect');
         }
 
     }

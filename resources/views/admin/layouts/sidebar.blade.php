@@ -16,13 +16,13 @@
                     </a>																
                 </li>
                 <li class="nav-item">
-                    <a href="{{ ('categories.index')}}" class="nav-link">
+                    <a href="{{ route('categories.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>Category</p>
                     </a>
                 </li>
                  <li class="nav-item">
-                    <a href="{{ ('user')}}" class="nav-link">
+                    <a href="{{ route('user')}}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>User</p>
                     </a>

@@ -21,9 +21,8 @@ class Authenticate extends Middleware
     public function authenticate($request, array $guards)
     {
         if(Auth::guard('user')->check()){
-          
-           auth()->shouldUse('user');
+        //    auth()->shouldUse('user');
         }
-        $this->authenticate($request, ['user']);
+        // $this->unauthenticated($request, ['user']);
     }
 }

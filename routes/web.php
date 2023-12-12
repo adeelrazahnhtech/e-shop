@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SubAdminController;
 use App\Http\Controllers\UserController;
@@ -30,6 +32,12 @@ Route::group(['prefix' => 'admin'],function(){
     Route::group(['middleware' => 'admin.auth'],function(){
         Route::get('/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
         Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
+        
+        //category
+        Route::resource('categories',CategoryController::class);
+
+        //permission
+        Route::get('/users',[PermissionController::class,'index'])->name('user');
     });
 });
 
@@ -45,9 +53,11 @@ Route::group(['prefix' => 'sub_admin'],function(){
     Route::group(['middleware'=>'sub_admin.auth'],function(){
         Route::get('/dashboard',[SubAdminController::class,'dashboard'])->name('sub_admin.dashboard');
         Route::get('/logout',[SubAdminController::class,'logout'])->name('sub_admin.logout');
-    });
-});
 
+
+    });
+
+});
 
 Route::group(['prefix' => 'seller'],function(){
     //this route is accessible without login
@@ -64,7 +74,6 @@ Route::group(['prefix' => 'seller'],function(){
     });
 });
 
-
 Route::group(['prefix' => 'user'],function(){
     //this route is accessible without login
     Route::group(['middleware' => 'user.guest'],function(){
@@ -79,4 +88,3 @@ Route::group(['prefix' => 'user'],function(){
         Route::get('/logout',[UserController::class,'logout'])->name('user.logout');
     });
 });
-

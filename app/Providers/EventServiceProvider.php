@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\LoginAdmin;
+use App\Events\RegisterSubAdmin;
+use App\Listeners\SendEmaiAdmin;
+use App\Listeners\SendEmailSubAdmin;
+use App\Models\Admin;
+use App\Observers\AdminObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +24,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        RegisterSubAdmin::class => [
+             SendEmailSubAdmin::class,
+        ],
+        LoginAdmin::class => [
+            SendEmaiAdmin::class,
+       ],
     ];
 
     /**
@@ -25,7 +37,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
     }
 
     /**

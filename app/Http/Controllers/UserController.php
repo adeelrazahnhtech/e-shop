@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthenticateUserRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Jobs\SendEmailUserJob;
 use App\Mail\RegisterUserEmail;
 use App\Models\Role;
 use App\Models\User;
@@ -28,8 +29,9 @@ class UserController extends Controller
         }
         $validatedData['token'] = uniqid();
         $user = User::create($validatedData);
-
-        Mail::to($user->email)->send(new RegisterUserEmail($user));
+ 
+        //queues
+        dispatch(new SendEmailUserJob($user));
         return redirect()->route('user.register')->with('success','Account register please wait for account approval');
     }
 
@@ -46,17 +48,14 @@ class UserController extends Controller
         if(auth('user')->attempt(['email'=> $request->email,'password' => $request->password]))
         {
           $user =  auth('user')->user();
-          dd($user);
           if($user->role == 4 && $user->email_verified_at == 1)
           {
             return redirect()->route('user.profile');
-          }else
-          {
+          }else{
             return redirect()->route('user.login')->with('error','you are not authorized to access the user profile');
           }
 
-        }else
-        {
+        }else{
             return redirect()->route('user.login ')->with('error','Invalid Email/Password is incorrect');
         }
 

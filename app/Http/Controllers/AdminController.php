@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoginAdmin;
 use App\Http\Requests\LoginAdminRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class AdminController extends Controller
         if(auth('admin')->attempt([ 'email' => $request->email, 'password'=> $request->password])){
              $admin = auth()->guard('admin')->user();
             if($admin->role == 1 && $admin->email_verified_at == 1){
+                event(new LoginAdmin($admin->id));  // event and listener
                 return redirect()->route('admin.dashboard');
             }else{
                 auth('admin')->logout();
