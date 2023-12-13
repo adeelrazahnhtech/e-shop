@@ -10,23 +10,23 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{('admin.dashboard')}}" class="nav-link">
+                    <a href="{{route('sub_admin.dashboard')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>																
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ ('categories.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>Category</p>
                     </a>
-                </li>
-                 <li class="nav-item">
+                </li> --}}
+                 {{-- <li class="nav-item">
                     <a href="{{ ('user')}}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>User</p>
                     </a>
-                </li>
+                </li> --}}
                 {{-- <li class="nav-item">
                     <a href="{{ ('brands.index')}}" class="nav-link">
                         <svg class="h-6 nav-icon w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -36,24 +36,24 @@
                     </a>
                 </li> --}}
                 <li class="nav-item">
-                    <a href="{{ ('products.index')}}" class="nav-link">
+                    <a href="{{ route('sub_admin.products.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-tag"></i>
                         <p>Products</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{('packages.index')}}" class="nav-link">
                         <i class="nav-icon  fa fa-percent" aria-hidden="true"></i>
                         <p>Packages</p>
                     </a>
-                </li>
-                <li class="nav-item">
+                </li> --}}
+                {{-- <li class="nav-item">
                     <a href="{{ ('admin.reviews')}}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>Reviews</p>
                     </a>
                 </li>
-                
+                 --}}
             {{--    <li class="nav-item">
                     <a href="{{('shipping.create')}}" class="nav-link">
                         <!-- <i class="nav-icon fas fa-tag"></i> -->

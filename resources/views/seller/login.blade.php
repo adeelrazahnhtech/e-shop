@@ -20,7 +20,7 @@
         @include('message')
         <div class="card card-outline card-primary">
               <div class="card-header text-center">
-                <a href="#" class="h3">Sub Admin Panel</a>
+                <a href="#" class="h3">Seller Panel</a>
               </div>
               <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>

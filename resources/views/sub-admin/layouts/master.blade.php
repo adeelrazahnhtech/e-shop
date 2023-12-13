@@ -64,7 +64,7 @@
         <!-- /.navbar -->
 
         <!-- /.main sidebar -->
-     @extends('admin.layouts.sidebar')
+     @extends('sub-admin.layouts.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
 			<div class="content-wrapper">

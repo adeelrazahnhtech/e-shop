@@ -14,15 +14,17 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category');
-            $table->unsignedBigInteger('sub_admin');
-            $table->unsignedBigInteger('seller');
+            $table->unsignedBigInteger('admin')->nullable();
+            $table->unsignedBigInteger('sub_admin')->nullable();
+            $table->unsignedBigInteger('seller')->nullable();
             $table->string('title');
             $table->text('description')->nullable();
             $table->double('price');
             $table->integer('track_qty')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
-            
+
+            $table->foreign('admin')->references('id')->on('admins')->onDelete('cascade');
             $table->foreign('sub_admin')->references('id')->on('sub_admins')->onDelete('cascade');
             $table->foreign('seller')->references('id')->on('sellers')->onDelete('cascade');
             $table->foreign('category')->references('id')->on('categories')->onDelete('cascade');

@@ -111,7 +111,7 @@ class CategoryController extends Controller
         }
         File::delete("uploads/category/".$category->image);
         $category->delete();
-        addSuccess('success: Category deleted successfully');
+        flash()->addSuccess('success: Category deleted successfully');
         return redirect()->route('categories.index');
        
     }

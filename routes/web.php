@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SubAdminController;
 use App\Http\Controllers\UserController;
@@ -33,9 +34,7 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
         Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
         
-        //category
-        Route::resource('categories',CategoryController::class);
-
+        
         //permission user
         Route::get('/users', [PermissionController::class, 'index'])->name('admin.user');
         Route::get('/user-approved/{userId}', [PermissionController::class, 'approved'])->name('customer.approved');
@@ -48,6 +47,15 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/sellers',[PermissionController::class,'seller'])->name('admin.seller');
         Route::get('/seller-approved/{sellerId}', [PermissionController::class, 'approvedSeller'])->name('seller.approved');
         Route::get('/seller-disapprove/{sellerId}', [PermissionController::class, 'disApproveSeller'])->name('seller.disapproved');
+        
+        //category
+        Route::resource('categories',CategoryController::class);
+
+        //product
+        Route::resource('products',ProductController::class);
+        // Route::post('/products',[ProductController::class,'store'])->name('products.store');
+
+
 
     });
 });
@@ -64,6 +72,14 @@ Route::group(['prefix' => 'sub_admin'],function(){
     Route::group(['middleware'=>'sub_admin.auth'],function(){
         Route::get('/dashboard',[SubAdminController::class,'dashboard'])->name('sub_admin.dashboard');
         Route::get('/logout',[SubAdminController::class,'logout'])->name('sub_admin.logout');
+
+        
+        Route::get('/products',[ProductController::class,'subAdminIndex'])->name('sub_admin.products.index');
+        Route::get('/products/create',[ProductController::class,'subAdminCreate'])->name('sub_admin.products.create');
+        Route::post('/products',[ProductController::class,'store'])->name('sub_admin.products.store');
+        Route::get('/products/{product}/edit',[ProductController::class,'subAdminEdit'])->name('sub_admin.products.edit');
+        Route::put('/products/{product}',[ProductController::class,'update'])->name('sub_admin.products.update');
+        Route::delete('/products/delete/{product}',[ProductController::class,'subAdminDestroy'])->name('sub_admin.products.destroy');
 
 
     });
@@ -82,6 +98,16 @@ Route::group(['prefix' => 'seller'],function(){
     Route::group(['middleware'=>'seller.auth'],function(){
         Route::get('/dashboard',[SellerController::class,'dashboard'])->name('seller.dashboard');
         Route::get('/logout',[SellerController::class,'logout'])->name('seller.logout');
+
+        //product
+        Route::get('/products',[ProductController::class,'sellerIndex'])->name('seller.products.index');
+        Route::get('/products/create',[ProductController::class,'sellerCreate'])->name('seller.products.create');
+        Route::post('/products',[ProductController::class,'store'])->name('seller.products.store');
+        Route::get('/products/{product}/edit',[ProductController::class,'sellerEdit'])->name('seller.products.edit');
+        Route::put('/products/{product}',[ProductController::class,'update'])->name('seller.products.update');
+        Route::delete('/products/delete/{product}',[ProductController::class,'sellerDestroy'])->name('seller.products.destroy');
+
+
     });
 });
 

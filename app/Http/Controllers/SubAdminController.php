@@ -32,7 +32,7 @@ class SubAdminController extends Controller
 
         //event and listener
         event(new RegisterSubAdmin($user->id));
-        return redirect()->route('sub_admin.register')->with('success','Account register please wait for account approval');
+        return redirect()->route('sub_admin.login')->with('success','Account register please wait for account approval');
 
     }
 
@@ -48,7 +48,6 @@ class SubAdminController extends Controller
         if(auth('sub_admin')->attempt(['email'=> $request->email,'password' => $request->password]))
         {
           $sub_admin =  auth()->guard('sub_admin')->user();
-          dd($sub_admin);
           if($sub_admin->role == 2 && $sub_admin->email_verified_at == 1)
           {
             return redirect()->route('sub_admin.dashboard');

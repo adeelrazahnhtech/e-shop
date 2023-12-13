@@ -38,7 +38,7 @@
                     @else
                         <a href="{{route('seller.disapproved',$user->id)}}"><button class="btn btn-danger">Disapproved</button></a>
                     @endif
-                    {{-- <a href="{{route('user.permission',$user->id)}}"><button class="btn btn-success">Permission</button></a> --}}
+                    <a href="{{route('user.permission',$user->id)}}"><button class="btn btn-success">Permission</button></a>
                     </td>
                 </tr>
             @endforeach

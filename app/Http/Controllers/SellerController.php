@@ -30,7 +30,7 @@ class SellerController extends Controller
         $seller = Seller::create($validatedData);
 
         Mail::to($seller->email)->send(new RegisterUserEmail($seller));
-        return redirect()->route('seller.register')->with('success','Account register please wait for account approval');
+        return redirect()->route('seller.login')->with('success','Account register please wait for account approval');
     }
 
 
@@ -42,7 +42,6 @@ class SellerController extends Controller
     public function attempt(AuthenticateSellerRequest $request)
     {
         $validatedData = $request->validated();
-        dd($validatedData);
 
         if(auth('seller')->attempt(['email'=> $request->email,'password' => $request->password]))
         {
