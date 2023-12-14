@@ -36,8 +36,8 @@
                                 <td>{{ $product->description }}</td>
                                 <td>{{ $product->categoryWise->name }}</td>
                                 <td>
-                                    @if($product->subAdminType)
-                                        {{ $product->subAdminType->roleType->role_type }}
+                                    @if($product->sellerType)
+                                        {{ $product->sellerType->roleType->role_type }}
                                     @endif
                                 </td>
                                 <td>{{ $product->track_qty }}</td>

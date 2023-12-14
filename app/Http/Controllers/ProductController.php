@@ -35,16 +35,17 @@ class ProductController extends Controller
      */
     public function store(StoreAdminProductRequest $request)
     {
-        $validateData = $request->validated();
+        $validatedData = $request->validated();
         if(auth('admin')->check()){
-            $validateData['admin'] = auth('admin')->id();
+            $validatedData['admin'] = auth('admin')->id();
         }elseif (auth('sub_admin')->check()) {
-            $validateData['sub_admin'] = auth('sub_admin')->id();
+            $validatedData['sub_admin'] = auth('sub_admin')->id();
         }elseif (auth('seller')->check()){
-            $validateData['seller'] = auth('seller')->id();
+            $validatedData['seller'] = auth('seller')->id();
         }
+        // dd($validatedData);
 
-        Product::create($validateData);
+        Product::create($validatedData);
         if(auth('admin')->check()){
             flash()->addSuccess('Successfully product created');
             return redirect()->route('products.index');
@@ -95,7 +96,6 @@ class ProductController extends Controller
             return redirect()->route('products.index');
         }
         $validatedData = $request->validated();
-
         if(auth('admin')->check()){
             $validatedData['admin'] = auth('admin')->id();
         }elseif (auth('sub_admin')->check()) {
@@ -190,6 +190,35 @@ class ProductController extends Controller
      {
          $categories = Category::orderBy('name','ASC')->get();
          return view('seller.product.create',compact('categories'));
+     }
+
+
+     public function sellerEdit($productId)
+     {
+        $product = Product::findOrFail($productId);
+        $category = Category::orderBy('name','ASC')->get();
+         $data['product'] = $product; 
+         $data['categories'] = $category; 
+         
+         if (empty($product)) {
+             flash()->addError('Data is empty');
+             return redirect()->route('sub_admin.products.index');
+         }
+         return view('seller.product.edit',$data);
+     }
+
+
+     public function sellerDestroy($productId)
+     {
+        $product = Product::findOrFail($productId);
+         
+        if (empty($product)) {
+            flash()->addError('Data is empty');
+            return redirect()->route('seller.products.index');
+        }
+        $product->delete();
+        flash()->addSuccess('product deleted successfully');
+        return redirect()->route('seller.products.index');
      }
 
 }
