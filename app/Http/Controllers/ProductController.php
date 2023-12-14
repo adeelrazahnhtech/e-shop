@@ -14,6 +14,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+     //admin
     public function index()
     {
         $products = Product::with('categoryWise','adminType.roleType','subAdminType.roleType','sellerType.roleType')->orderByDesc('id')->get();
@@ -35,16 +36,21 @@ class ProductController extends Controller
      */
     public function store(StoreAdminProductRequest $request)
     {
-        $validateData = $request->validated();
+        $validatedData = $request->validated();
+
         if(auth('admin')->check()){
-            $validateData['admin'] = auth('admin')->id();
+            $validatedData['admin'] = auth('admin')->id();
+            // $validatedData['product_created'] = auth('admin')->user()-roleType->id;
         }elseif (auth('sub_admin')->check()) {
-            $validateData['sub_admin'] = auth('sub_admin')->id();
+            $validatedData['sub_admin'] = auth('sub_admin')->id();
+            // $validatedData['product_created'] = auth('sub_admin')->user()-roleType->id;
+
         }elseif (auth('seller')->check()){
-            $validateData['seller'] = auth('seller')->id();
+            $validatedData['seller'] = auth('seller')->id();
+            // $validatedData['product_created'] = auth('seller')->user()-roleType->id;
         }
 
-        Product::create($validateData);
+        Product::create($validatedData);
         if(auth('admin')->check()){
             flash()->addSuccess('Successfully product created');
             return redirect()->route('products.index');
@@ -98,10 +104,14 @@ class ProductController extends Controller
 
         if(auth('admin')->check()){
             $validatedData['admin'] = auth('admin')->id();
+            // $validatedData['product_created'] = auth('admin')->user()-roleType->id;
         }elseif (auth('sub_admin')->check()) {
             $validatedData['sub_admin'] = auth('sub_admin')->id();
+            // $validatedData['product_created'] = auth('sub_admin')->user()-roleType->id;
+
         }elseif (auth('seller')->check()){
             $validatedData['seller'] = auth('seller')->id();
+            // $validatedData['product_created'] = auth('seller')->user()-roleType->id;
         }
 
         $product->update($validatedData);
@@ -135,7 +145,7 @@ class ProductController extends Controller
          return redirect()->route('products.index');
     }
 
-
+    //sub admin
     public function subAdminIndex()
     {
         $products = Product::with('categoryWise','subAdminType.roleType')->orderByDesc('id')->where('sub_admin',2)->get();
@@ -191,5 +201,33 @@ class ProductController extends Controller
          $categories = Category::orderBy('name','ASC')->get();
          return view('seller.product.create',compact('categories'));
      }
+
+
+     public function sellerEdit($productId)
+     {
+         $product = Product::findOrFail($productId);
+         $category = Category::orderBy('name','ASC')->get();
+          $data['product'] = $product; 
+          $data['categories'] = $category; 
+          
+          if (empty($product)) {
+              flash()->addError('Data is empty');
+              return redirect()->route('sub_admin.products.index');
+          }
+          return view('seller.product.edit',$data);
+      }
+
+      public function sellerDestroy($productId)
+      {
+        $product = Product::findOrFail($productId);
+         
+        if (empty($product)) {
+            flash()->addError('Data is empty');
+            return redirect()->route('seller.products.index');
+        }
+        $product->delete();
+        flash()->addSuccess('product deleted successfully');
+        return redirect()->route('seller.products.index');
+      }
 
 }

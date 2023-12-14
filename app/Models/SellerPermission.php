@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SellerPermission extends Model
 {
     use HasFactory;
+
+    protected $table = 'seller_permissions';
 }

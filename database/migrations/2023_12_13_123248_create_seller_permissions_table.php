@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('seller_permissions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('seller');
-            $table->unsignedBigInteger('permission');
+            $table->unsignedBigInteger('seller_id');
+            $table->unsignedBigInteger('permission_id');
             $table->timestamps();
 
-            $table->foreign('seller')->references('id')->on('sellers')->onDelete('cascade');
-            $table->foreign('permission')->references('id')->on('permissions')->onDelete('cascade');
+            $table->foreign('seller_id')->references('id')->on('sellers')->onDelete('cascade');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
         });
     }
 

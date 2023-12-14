@@ -43,11 +43,15 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/sub-admins',[PermissionController::class,'subAdmin'])->name('admin.sub_admin');
         Route::get('/sub-approved/{subAdminId}', [PermissionController::class, 'approvedSubAdmin'])->name('sub_admin.approved');
         Route::get('/sub-disapprove/{subAdminId}', [PermissionController::class, 'disApproveSubAdmin'])->name('sub_admin.disapproved');
-       //permission seller
+       //approve seller
         Route::get('/sellers',[PermissionController::class,'seller'])->name('admin.seller');
         Route::get('/seller-approved/{sellerId}', [PermissionController::class, 'approvedSeller'])->name('seller.approved');
         Route::get('/seller-disapprove/{sellerId}', [PermissionController::class, 'disApproveSeller'])->name('seller.disapproved');
-        
+        //permission seller
+        Route::get('/seller-permissions/{seller}',[PermissionController::class,'create'])->name('seller.permission');
+        Route::post('/seller-permissions/{seller}',[PermissionController::class,'store'])->name('permission.store');
+
+
         //category
         Route::resource('categories',CategoryController::class);
 

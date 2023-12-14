@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Permission;
 use App\Models\Seller;
 use App\Models\SubAdmin;
 use App\Models\User;
@@ -104,6 +105,23 @@ class PermissionController extends Controller
        flash()->addError('Failed seller has not been disapproved');
           return redirect()->route('admin.seller');
     }
+
+
+    public function create($sellerId)
+    {
+       $permissions = Permission::with(['seller'=>fn($q)=>$q->where('seller_id', $sellerId)])->get();// here it filters within the relation 
+       $seller = Seller::with('permissions')->findOrFail($sellerId);
+      //  dd($seller->permissions);
+      return view('admin.seller.create',compact('permissions','seller'));
+    }
+
+    public function store($productId)
+    {
+      dd('ok');
+    }
+
+
+    
 
     
 }
