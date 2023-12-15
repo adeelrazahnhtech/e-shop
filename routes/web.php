@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SubAdminController;
@@ -43,17 +45,24 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/sub-admins',[PermissionController::class,'subAdmin'])->name('admin.sub_admin');
         Route::get('/sub-approved/{subAdminId}', [PermissionController::class, 'approvedSubAdmin'])->name('sub_admin.approved');
         Route::get('/sub-disapprove/{subAdminId}', [PermissionController::class, 'disApproveSubAdmin'])->name('sub_admin.disapproved');
-       //permission seller
+       //approve seller
         Route::get('/sellers',[PermissionController::class,'seller'])->name('admin.seller');
         Route::get('/seller-approved/{sellerId}', [PermissionController::class, 'approvedSeller'])->name('seller.approved');
         Route::get('/seller-disapprove/{sellerId}', [PermissionController::class, 'disApproveSeller'])->name('seller.disapproved');
-        
+        //permission seller
+        Route::get('/seller-permissions/{seller}',[PermissionController::class,'create'])->name('seller.permission');
+        Route::post('/seller-permissions/{seller}',[PermissionController::class,'store'])->name('permission.store');
+
+
         //category
         Route::resource('categories',CategoryController::class);
 
         //product
         Route::resource('products',ProductController::class);
         // Route::post('/products',[ProductController::class,'store'])->name('products.store');
+
+        //package
+        Route::resource('packages',PackageController::class);
 
 
 
@@ -123,5 +132,20 @@ Route::group(['prefix' => 'user'],function(){
     Route::group(['middleware'=>'user.auth'],function(){
         Route::get('/profile',[UserController::class,'profile'])->name('user.profile');
         Route::get('/logout',[UserController::class,'logout'])->name('user.logout');
+
+        //cart
+        Route::get('/cart',[CartController::class,'index'])->name('user.cart');
+        Route::post('/add-cart/{product}',[CartController::class,'create'])->name('user.addToCart');
+        Route::put('/update-cart/{product}',[CartController::class,'update'])->name('user.updateItem');
+        Route::delete('/delete-cart/{product}',[CartController::class,'destroy'])->name('user.deleteItem');
+
+        
+        Route::get('/checkout-order',[CartController::class,'createOrder'])->name('cart.checkout');
+        Route::get('/store-checkout', [CartController::class, 'storeOrder'])->name('order.pay');
+        Route::get('/cart-cancel', [CartController::class, 'cancelOrder'])->name('order.cancel');
+        
+
+
+
     });
 });

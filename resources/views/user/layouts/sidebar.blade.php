@@ -9,36 +9,26 @@
         <!-- Sidebar user (optional) -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                    <a href="{{('admin.dashboard')}}" class="nav-link">
+                <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                {{-- <li class="nav-item">
+                    <a href="{{route('admin.dashboard')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>																
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('categories.index')}}" class="nav-link">
+                </li> --}}
+                {{-- <li class="nav-item">
+                    <a href="{{ route('account.package')}}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
-                        <p>Category</p>
+                        <p>Packages</p>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.sub_admin')}}" class="nav-link">
+                </li>  --}}
+                 {{-- <li class="nav-item">
+                    <a href="{{ ('sub-categories.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
-                        <p>Sub Admin</p>
+                        <p>Sub Category</p>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.seller')}}" class="nav-link">
-                        <i class="nav-icon fas fa-file-alt"></i>
-                        <p>Seller</p>
-                    </a>
-                </li>
-                 <li class="nav-item">
-                    <a href="{{ route('admin.user')}}" class="nav-link">
-                        <i class="nav-icon fas fa-file-alt"></i>
-                        <p>User</p>
-                    </a>
-                </li>
+                </li> --}}
                 {{-- <li class="nav-item">
                     <a href="{{ ('brands.index')}}" class="nav-link">
                         <svg class="h-6 nav-icon w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -47,7 +37,7 @@
                         <p>Brands</p>
                     </a>
                 </li> --}}
-                <li class="nav-item">
+            {{--    <li class="nav-item">
                     <a href="{{ route('products.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-tag"></i>
                         <p>Products</p>
@@ -59,14 +49,8 @@
                         <p>Packages</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ ('admin.reviews')}}" class="nav-link">
-                        <i class="nav-icon fas fa-file-alt"></i>
-                        <p>Reviews</p>
-                    </a>
-                </li>
                 
-            {{--    <li class="nav-item">
+                <li class="nav-item">
                     <a href="{{('shipping.create')}}" class="nav-link">
                         <!-- <i class="nav-icon fas fa-tag"></i> -->
                         <i class="fas fa-truck nav-icon"></i>

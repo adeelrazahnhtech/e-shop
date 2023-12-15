@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('admin')->nullable();
             $table->unsignedBigInteger('sub_admin')->nullable();
             $table->unsignedBigInteger('seller')->nullable();
+            $table->string('product_created')->nullable();
             $table->string('title');
             $table->text('description')->nullable();
             $table->double('price');

@@ -6,6 +6,7 @@ use App\Http\Requests\AuthenticateUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Jobs\SendEmailUserJob;
 use App\Mail\RegisterUserEmail;
+use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -64,9 +65,8 @@ class UserController extends Controller
 
     public function profile()
     {
-        Auth::guard('user')->logout();
-        //showing the products
-        return view('user.profile');
+        $products = Product::orderBy('id','DESC')->get();
+        return view('user.profile',compact('products'));
     }
     
     

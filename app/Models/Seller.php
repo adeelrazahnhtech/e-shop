@@ -27,6 +27,13 @@ class Seller extends Authenticatable
     }
 
     public function setPasswordAttribute($value){
-      $this->attributes["password"] = Hash::make($value);
-      }
+    $this->attributes["password"] = Hash::make($value);
+    }
+
+    public function permissions()
+    {
+      return $this->belongsToMany(Permission::class,'seller_permissions','seller_id','permission_id');
+    }
+
+    
 }

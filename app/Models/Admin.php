@@ -24,4 +24,10 @@ class Admin extends Authenticatable
     {
       return $this->belongsTo(Role::class,'role','id');
     }
+
+
+    public function packages()
+    {
+      return $this->belongsToMany(Package::class,'admin_packages','admin_id','package_id');
+    }
 }

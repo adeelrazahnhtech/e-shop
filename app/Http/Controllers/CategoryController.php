@@ -36,7 +36,6 @@ class CategoryController extends Controller
       $validatedData = $request->validated();
 
       if(!empty($validatedData)){
-
        
         if(!empty($request->hasFile('image'))){
             $image = $request->file('image');
