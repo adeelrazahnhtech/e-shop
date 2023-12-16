@@ -14,6 +14,6 @@ class Permission extends Model
 
     public function seller()
     {
-        return $this->hasOne(SellerPermission::class, 'seller_id', 'id');
+        return $this->hasOne(SellerPermission::class, 'permission_id', 'id');
     }
 }

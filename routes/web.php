@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SubAdminController;
 use App\Http\Controllers\UserController;
@@ -59,8 +60,14 @@ Route::group(['prefix' => 'admin'],function(){
 
         //product
         Route::resource('products',ProductController::class);
-        // Route::post('/products',[ProductController::class,'store'])->name('products.store');
 
+        //review
+        Route::get('/reviews',[ReviewController::class,'index'])->name('admin.reviews');
+        Route::get('/admin-review/{productId}',[ReviewController::class,'createAdmin'])->name('admin.give_review');
+        Route::post('/admin',[ReviewController::class,'store'])->name('admin.review.process');
+        Route::get('/admin-approved/{reviewId}',[ReviewController::class,'approve'])->name('review.approved');
+        Route::get('/admin-disapproved/{reviewId}',[ReviewController::class,'disApprove'])->name('review.disapproved');
+        
         //package
         Route::resource('packages',PackageController::class);
 
@@ -90,6 +97,11 @@ Route::group(['prefix' => 'sub_admin'],function(){
         Route::put('/products/{product}',[ProductController::class,'update'])->name('sub_admin.products.update');
         Route::delete('/products/delete/{product}',[ProductController::class,'subAdminDestroy'])->name('sub_admin.products.destroy');
 
+        //review 
+        Route::get('/subadmin-review/{productId}',[ReviewController::class,'createSubadmin'])->name('sub_admin.give_review');
+        Route::post('/subadmin',[ReviewController::class,'store'])->name('sub_admin.review.process');
+
+
 
     });
 
@@ -116,6 +128,10 @@ Route::group(['prefix' => 'seller'],function(){
         Route::put('/products/{product}',[ProductController::class,'update'])->name('seller.products.update');
         Route::delete('/products/delete/{product}',[ProductController::class,'sellerDestroy'])->name('seller.products.destroy');
 
+           //review 
+        Route::get('/seller-review/{productId}',[ReviewController::class,'createSeller'])->name('seller.give_review');
+        Route::post('/seller',[ReviewController::class,'store'])->name('seller.review.process');
+
 
     });
 });
@@ -139,10 +155,23 @@ Route::group(['prefix' => 'user'],function(){
         Route::put('/update-cart/{product}',[CartController::class,'update'])->name('user.updateItem');
         Route::delete('/delete-cart/{product}',[CartController::class,'destroy'])->name('user.deleteItem');
 
-        
+        //order stripe
         Route::get('/checkout-order',[CartController::class,'createOrder'])->name('cart.checkout');
         Route::get('/store-checkout', [CartController::class, 'storeOrder'])->name('order.pay');
         Route::get('/cart-cancel', [CartController::class, 'cancelOrder'])->name('order.cancel');
+
+        //orders
+        Route::get('/product-order',[CartController::class,'order'])->name('user.order');
+        Route::get('/product/{orderId}',[CartController::class,'show'])->name('order.product');
+        
+        //single product
+        Route::get('/single-product/{productId}',[UserController::class,'show'])->name('product');
+        //review
+        Route::get('/review-create/{productId}',[ReviewController::class,'create'])->name('review');
+        Route::post('/review-create',[ReviewController::class,'store'])->name('review.process');
+
+
+
         
 
 

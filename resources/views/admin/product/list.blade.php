@@ -30,6 +30,7 @@
                         <th>Action</th>
                     </tr>
                     @if ($products->isNotEmpty())
+                    {{-- @dd($products) --}}
                         @foreach ($products as $product)
                             <tr>
                                 <td>{{ $product->title }}</td>
@@ -47,9 +48,9 @@
                                 <td>{{ $product->track_qty }}</td>
                                 <td>{{ ($product->status == 1) ? 'Yes' : 'No' }}</td>
                                 <td style="display: flex; margin-right:20px;">
-                                    {{-- @if ($product->reviews->where('reviewable_id','=',auth('admin')->id() AND 'reviewable_type','=','App\Models\User')->isEmpty()) 
+                                    @if ($product->reviews->where('reviewable_id', auth('admin')->id())->where('reviewable_type', 'App\Models\Admin')->isEmpty())
                                     <a href="{{route('admin.give_review',$product->id)}}"><button class="btn btn-sm btn-success">Write a Review</button></a>  
-                                    @endif  --}}
+                                    @endif 
                                     <a href="{{route('products.edit',$product->id)}}"><button class="btn btn-secondary">Edit</button></a>
                                      {{-- @cannot('is-admin', $product)  gate authorization --}}
                                      {{-- @can('isAdmin',$product) Policies authrization --}}

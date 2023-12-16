@@ -109,8 +109,9 @@ class PermissionController extends Controller
 
     public function create($sellerId)
     {
-       $permissions = Permission::with(['seller'=>fn($q)=>$q->where('seller_id', $sellerId)])->get();// here it filters within the relation 
+       $permissions = Permission::with(['seller'])->get();// here it filters within the relation 
        $seller = Seller::with('permissions')->findOrFail($sellerId);
+      //  dd($permissions);
       return view('admin.seller.create',compact('permissions','seller'));
     }
 

@@ -60,7 +60,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ ('admin.reviews')}}" class="nav-link">
+                    <a href="{{ route('admin.reviews')}}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>Reviews</p>
                     </a>

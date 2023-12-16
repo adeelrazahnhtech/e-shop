@@ -23,6 +23,11 @@ class User extends Authenticatable
        return $this->belongsTo(Role::class,'role','id');
      }
 
+     public function reviews()
+     {
+        return $this->morphMany(Review::class ,'reviewable');
+     }
+
      
     protected $fillable = [
         'role',

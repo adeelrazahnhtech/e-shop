@@ -17,7 +17,7 @@ class ProductController extends Controller
      //admin
     public function index()
     {
-        $products = Product::with('categoryWise','adminType.roleType','subAdminType.roleType','sellerType.roleType')->orderByDesc('id')->get();
+        $products = Product::with('reviews','categoryWise','adminType.roleType','subAdminType.roleType','sellerType.roleType')->orderByDesc('id')->get();
         return view('admin.product.list',compact('products'));
     }
 
@@ -26,6 +26,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize('create');
         $category = Category::orderBy('name','ASC')->get();
         $data['categories'] = $category; 
         return view('admin.product.create',$data);
@@ -36,6 +37,7 @@ class ProductController extends Controller
      */
     public function store(StoreAdminProductRequest $request)
     {
+
         $validatedData = $request->validated();
         
         if(auth('admin')->check()){
@@ -49,6 +51,7 @@ class ProductController extends Controller
             $validatedData['seller'] = auth('seller')->id();
             $validatedData['product_created'] = auth('seller')->user()->roleType->role_type;
         }
+        // dd($validatedData);
 
         Product::create($validatedData);
         if(auth('admin')->check()){
@@ -103,14 +106,14 @@ class ProductController extends Controller
         $validatedData = $request->validated();
         if(auth('admin')->check()){
             $validatedData['admin'] = auth('admin')->id();
-            // $validatedData['product_created'] = auth('admin')->user()-roleType->id;
+            $validatedData['product_created'] = auth('admin')->user()-roleType->role_type;
         }elseif (auth('sub_admin')->check()) {
             $validatedData['sub_admin'] = auth('sub_admin')->id();
-            // $validatedData['product_created'] = auth('sub_admin')->user()-roleType->id;
+            $validatedData['product_created'] = auth('sub_admin')->user()-roleType->role_type;
 
         }elseif (auth('seller')->check()){
             $validatedData['seller'] = auth('seller')->id();
-            // $validatedData['product_created'] = auth('seller')->user()-roleType->id;
+            $validatedData['product_created'] = auth('seller')->user()-roleType->role_type;
         }
 
         $product->update($validatedData);
@@ -147,7 +150,10 @@ class ProductController extends Controller
     //sub admin
     public function subAdminIndex()
     {
-        $products = Product::with('categoryWise','subAdminType.roleType')->orderByDesc('id')->where('sub_admin',2)->get();
+        // $products = Product::with('categoryWise','subAdminType.roleType')->get();
+        $products = Product::with(['reviews','categoryWise','subAdminType.roleType'])->whereHas('subAdminType.roleType', fn($q)=>$q->where('id', 2))->orderByDesc('id')->get();
+        // $products = Product::with('reviews','categoryWise','adminType.roleType','subAdminType.roleType','sellerType.roleType')->orderByDesc('id')->get();
+       
         return view('sub-admin.product.list',compact('products'));
     }
 
@@ -189,7 +195,8 @@ class ProductController extends Controller
      //seller
      public function sellerIndex()
      {
-        $products = Product::with('categoryWise','sellerType.roleType')->where('seller',1)->get();
+        // $products = Product::with('categoryWise','sellerType.roleType')->where('seller',1)->get();
+        $products = Product::with(['categoryWise','sellerType.roleType'])->whereHas('sellerType.roleType', fn($q)=>$q->where('id', 3))->get();
         return view('seller.product.list',compact('products'));
      }
 

@@ -68,6 +68,13 @@ class UserController extends Controller
         $products = Product::orderBy('id','DESC')->get();
         return view('user.profile',compact('products'));
     }
+
+
+    public function show($productId)
+    {
+       $product = Product::with('orders')->find($productId);
+       return view('user.single-product',compact('product'));
+    }
     
     
     public function logout()

@@ -43,9 +43,9 @@
                                 <td>{{ $product->track_qty }}</td>
                                 <td>{{ ($product->status == 1) ? 'Yes' : 'No' }}</td>
                                 <td style="display: flex; margin-right:20px;">
-                                    {{-- @if ($product->reviews->where('reviewable_id','=',auth('admin')->id() AND 'reviewable_type','=','App\Models\User')->isEmpty()) 
-                                    <a href="{{route('admin.give_review',$product->id)}}"><button class="btn btn-sm btn-success">Write a Review</button></a>  
-                                    @endif  --}}
+                                    @if ($product->reviews->where('reviewable_id','=',auth('seller')->id() && 'reviewable_type','=','App\Models\Seller')->isEmpty()) 
+                                    <a href="{{route('seller.give_review',$product->id)}}"><button class="btn btn-sm btn-success">Write a Review</button></a>  
+                                    @endif 
                                     <a href="{{route('seller.products.edit',$product->id)}}"><button class="btn btn-secondary">Edit</button></a>
                                      {{-- @cannot('is-admin', $product)  gate authorization --}}
                                      {{-- @can('isAdmin',$product) Policies authrization --}}

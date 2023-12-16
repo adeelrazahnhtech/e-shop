@@ -13,6 +13,7 @@ class Product extends Model
         'category',
         'title',
         'description',
+        'product_created',
         'price',
         'track_qty',
         'status',
@@ -46,7 +47,12 @@ class Product extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class)->withPivot('quantity');
+        return $this->belongsToMany(Order::class ,'order_products', 'order_id', 'product_id')->withPivot('quantity');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'id');
     }
 
     

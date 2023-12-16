@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Cart;
 
@@ -76,14 +77,11 @@ class CartController extends Controller
             $line_items = [];
 
             foreach ($items as $key => $value) {
-                $product = Product::find($value['id']);
-
                 $line_items[] = [
                         'price_data' => [
                             'currency' => 'usd',
                             'product_data' => [
-                            'name' => $product->title,
-                            'description' => $product->description,
+                            'name' => $value->name,
                              ],
                             'unit_amount' => $value['price'] * 100,
                         ],
@@ -118,10 +116,11 @@ class CartController extends Controller
                 flash()->addError('invalid request order already exists on this session id');
                 return redirect()->route('user.profile');
             }
-            $order = Order::create(['user_id' => auth('user')->user()->id, 'payment_id' =>$session->payment_intent]);
+            $order = Order::create(['user_id' => auth('user')->user()->id,'status'=> $session->payment_status,'payment_id' =>$session->payment_intent]);
+                
             $cartItems  = \Cart::getContent();
             foreach ($cartItems as $cartItem) {
-               $product = Product::find($cartItem);
+               $product = Product::find($cartItem->id);
                $order->products()->attach($product,['quantity' => $cartItem->quantity]);
             }
             \Cart::clear();
@@ -131,6 +130,27 @@ class CartController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['status' => false, 'error' => $th->getMessage()]);
         }
+    }
+
+    public function cancelOrder()
+    {
+        flash()->addSuccess('Your payment has been cancelled');
+        return redirect()->route('user.cart');
+    }
+
+
+    public function order()
+    {
+        $orders = Order::with('products')->get();
+        return view('user.order',compact('orders'));
+    }
+
+
+    public function show(Order $orderId)
+    {
+        $orders = Order::with('products')->find($orderId);
+        return view('user.view-products',compact('orders'));
+
     }
 
 

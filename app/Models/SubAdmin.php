@@ -28,5 +28,11 @@ class SubAdmin extends Authenticatable
 
     public function setPasswordAttribute($value){
       $this->attributes["password"] = Hash::make($value);
-  }
+    }
+
+
+    public function reviews()
+    {
+       return $this->morphMany(Review::class ,'reviewable');
+    }
 }

@@ -35,5 +35,11 @@ class Seller extends Authenticatable
       return $this->belongsToMany(Permission::class,'seller_permissions','seller_id','permission_id');
     }
 
+
+    public function reviews()
+    {
+       return $this->morphMany(Review::class ,'reviewable');
+    }
+
     
 }
