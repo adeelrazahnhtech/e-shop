@@ -29,12 +29,11 @@ class SellerPolicy
      */
     public function create(Seller $seller): bool
     {
-      return auth('seller')->user()->permissions; 
     }
 
     public function store(Seller $seller): bool
     {
-
+         
     }
 
     /**
@@ -42,7 +41,9 @@ class SellerPolicy
      */
     public function update(Seller $seller): bool
     {
-        //
+        return in_array('seller_update',auth('seller')->user()->permissions->pluck('name')->toArray())
+        ? Response::allow()
+        : Response::deny('You are not allowed to update the seller');
     }
 
     /**

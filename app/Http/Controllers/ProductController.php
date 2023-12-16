@@ -26,7 +26,6 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $this->authorize('create');
         $category = Category::orderBy('name','ASC')->get();
         $data['categories'] = $category; 
         return view('admin.product.create',$data);
@@ -204,6 +203,9 @@ class ProductController extends Controller
      
      public function sellerCreate()
      {
+        dd();
+        $this->authorize('create',Product::class);
+
          $categories = Category::orderBy('name','ASC')->get();
          return view('seller.product.create',compact('categories'));
      }
