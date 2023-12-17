@@ -146,6 +146,8 @@ Route::group(['prefix' => 'user'],function(){
     });
 
     Route::group(['middleware'=>'user.auth'],function(){
+        Route::middleware('is_subscribe')->group(function(){
+        });
         Route::get('/profile',[UserController::class,'profile'])->name('user.profile');
         Route::get('/logout',[UserController::class,'logout'])->name('user.logout');
 

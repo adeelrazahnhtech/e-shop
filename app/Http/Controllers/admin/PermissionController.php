@@ -21,7 +21,7 @@ class PermissionController extends Controller
     {
         $user = User::findOrFail($userId);
        if($user){
-          $user->update(['email_verified_at' => 1, 'token' => null]);
+          $user->update(['email_verified_at' => now(), 'token' => null]);
           flash()->addSuccess('Successfully user has been approved');
           return redirect()->route('admin.user');
        }
@@ -34,7 +34,7 @@ class PermissionController extends Controller
     {
         $user = User::findOrFail($userId);
        if($user){
-          $user->update(['email_verified_at' => null]);
+         $user->update(['email_verified_at' => 1, 'token' => null]);
           flash()->addSuccess('Successfully user has been disapproved');
           return redirect()->route('admin.user');
        }

@@ -30,14 +30,16 @@
                         <th>Action</th>
                     </tr>
                     @if ($products->isNotEmpty())
+                    {{-- @dd($products) --}}
                         @foreach ($products as $product)
+                            @if ($product->productable->roleType->id == 3)
                             <tr>
                                 <td>{{ $product->title }}</td>
                                 <td>{{ $product->description }}</td>
                                 <td>{{ $product->categoryWise->name }}</td>
                                 <td>
-                                    @if($product->sellerType)
-                                        {{ $product->sellerType->roleType->role_type }}
+                                    @if($product->productable->roleType->id == 3)
+                                        {{ $product->productable->roleType->role_type }}
                                     @endif
                                 </td>
                                 <td>{{ $product->track_qty }}</td>
@@ -59,6 +61,7 @@
             
                                 </td>
                             </tr>
+                            @endif    
                         @endforeach
                     @endif
                 </table>

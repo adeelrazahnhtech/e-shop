@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'sub_admin.auth' => \App\Http\Middleware\SubAdminAuthenticate::class,
         'seller.auth' => \App\Http\Middleware\SellerAuthenticate::class,
         'user.auth'=> \App\Http\Middleware\UserAuthenticate::class,
+        'is_subscribe'=> \App\Http\Middleware\Subscription::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,

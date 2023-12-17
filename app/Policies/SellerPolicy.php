@@ -11,7 +11,11 @@ class SellerPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(Seller $seller): bool
+    public function __construct()
+    {
+        //
+    }
+    public function viewAny(Seller $seller)
     {
         //
     }
@@ -19,7 +23,7 @@ class SellerPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(Seller $seller): bool
+    public function view(Seller $seller)
     {
         //
     }
@@ -27,19 +31,15 @@ class SellerPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(Seller $seller): bool
+    public function create(Seller $seller)
     {
     }
 
-    public function store(Seller $seller): bool
-    {
-         
-    }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(Seller $seller): bool
+    public function update(Seller $seller)
     {
         return in_array('seller_update',auth('seller')->user()->permissions->pluck('name')->toArray())
         ? Response::allow()
@@ -49,15 +49,17 @@ class SellerPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(Seller $seller): bool
+    public function delete(Seller $seller)
     {
-        //
+        return in_array('seller_delete',auth('seller')->user()->permissions->pluck('name')->toArray())
+        ? Response::allow()
+        : Response::deny('You are not allowed to delete the seller');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(Seller $seller): bool
+    public function restore(Seller $seller)
     {
         //
     }
@@ -65,7 +67,7 @@ class SellerPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(Seller $seller): bool
+    public function forceDelete(Seller $seller)
     {
         //
     }

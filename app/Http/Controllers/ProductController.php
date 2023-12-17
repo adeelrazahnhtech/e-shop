@@ -17,7 +17,9 @@ class ProductController extends Controller
      //admin
     public function index()
     {
-        $products = Product::with('reviews','categoryWise','adminType.roleType','subAdminType.roleType','sellerType.roleType')->orderByDesc('id')->get();
+        // $products = Product::with('reviews','categoryWise','adminType.roleType','subAdminType.roleType','sellerType.roleType')->orderByDesc('id')->get();
+        $products = Product::with('reviews','categoryWise','productable.roleType')->orderByDesc('id')->get();
+
         return view('admin.product.list',compact('products'));
     }
 
@@ -40,19 +42,22 @@ class ProductController extends Controller
         $validatedData = $request->validated();
         
         if(auth('admin')->check()){
-            $validatedData['admin'] = auth('admin')->id();
+            $user = auth('admin')->user();
             $validatedData['product_created'] = auth('admin')->user()->roleType->role_type;
         }elseif (auth('sub_admin')->check()) {
-            $validatedData['sub_admin'] = auth('sub_admin')->id();
+            $user = auth('sub_admin')->user();
             $validatedData['product_created'] = auth('sub_admin')->user()->roleType->role_type;
 
         }elseif (auth('seller')->check()){
-            $validatedData['seller'] = auth('seller')->id();
+            // authorize logics in product policy
+            // $this->authorize('store',Product::class);
+
+            $user = auth('seller')->user();
             $validatedData['product_created'] = auth('seller')->user()->roleType->role_type;
         }
-        // dd($validatedData);
 
-        Product::create($validatedData);
+        $user->product()->create($validatedData);
+
         if(auth('admin')->check()){
             flash()->addSuccess('Successfully product created');
             return redirect()->route('products.index');
@@ -96,7 +101,8 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateAdminProductRequest $request, string $productId)
-    {
+    {   
+
         $product = Product::findOrFail($productId);
         if (empty($product)) {
             flash()->addError('Data is empty');
@@ -104,18 +110,18 @@ class ProductController extends Controller
         }
         $validatedData = $request->validated();
         if(auth('admin')->check()){
-            $validatedData['admin'] = auth('admin')->id();
-            $validatedData['product_created'] = auth('admin')->user()-roleType->role_type;
+            $user = auth('admin')->user();
+            $validatedData['product_created'] = auth('admin')->user()->roleType->role_type;
         }elseif (auth('sub_admin')->check()) {
-            $validatedData['sub_admin'] = auth('sub_admin')->id();
-            $validatedData['product_created'] = auth('sub_admin')->user()-roleType->role_type;
+            $user = auth('sub_admin')->user();
+            $validatedData['product_created'] = auth('sub_admin')->user()->roleType->role_type;
 
         }elseif (auth('seller')->check()){
-            $validatedData['seller'] = auth('seller')->id();
-            $validatedData['product_created'] = auth('seller')->user()-roleType->role_type;
+            $user = auth('seller')->user();
+            $validatedData['product_created'] = auth('seller')->user()->roleType->role_type;
         }
 
-        $product->update($validatedData);
+        $product->$user->product()->update($validatedData);
 
         if(auth('admin')->check()){
             flash()->addSuccess('Successfully product updated');
@@ -149,9 +155,8 @@ class ProductController extends Controller
     //sub admin
     public function subAdminIndex()
     {
-        // $products = Product::with('categoryWise','subAdminType.roleType')->get();
-        $products = Product::with(['reviews','categoryWise','subAdminType.roleType'])->whereHas('subAdminType.roleType', fn($q)=>$q->where('id', 2))->orderByDesc('id')->get();
-        // $products = Product::with('reviews','categoryWise','adminType.roleType','subAdminType.roleType','sellerType.roleType')->orderByDesc('id')->get();
+        // $products = Product::with(['reviews','categoryWise','subAdminType.roleType'])->whereHas('subAdminType.roleType', fn($q)=>$q->where('id', 2))->orderByDesc('id')->get();
+        $products = Product::with('reviews','categoryWise','productable.roleType')->orderByDesc('id')->get();
        
         return view('sub-admin.product.list',compact('products'));
     }
@@ -194,8 +199,8 @@ class ProductController extends Controller
      //seller
      public function sellerIndex()
      {
-        // $products = Product::with('categoryWise','sellerType.roleType')->where('seller',1)->get();
-        $products = Product::with(['categoryWise','sellerType.roleType'])->whereHas('sellerType.roleType', fn($q)=>$q->where('id', 3))->get();
+        // $products = Product::with('reviews','categoryWise','productable.roleType')->whereHas('productable', fn($q)=>$q->where('id', 3))->get();
+        $products = Product::with('reviews','categoryWise','productable.roleType')->orderByDesc('id')->get();
         return view('seller.product.list',compact('products'));
      }
 
@@ -203,9 +208,6 @@ class ProductController extends Controller
      
      public function sellerCreate()
      {
-        dd();
-        $this->authorize('create',Product::class);
-
          $categories = Category::orderBy('name','ASC')->get();
          return view('seller.product.create',compact('categories'));
      }
@@ -213,6 +215,9 @@ class ProductController extends Controller
 
      public function sellerEdit($productId)
      {
+           // authorize logics in product policy
+        // $this->authorize('update',Product::class);
+
          $product = Product::findOrFail($productId);
          $category = Category::orderBy('name','ASC')->get();
           $data['product'] = $product; 
@@ -227,6 +232,9 @@ class ProductController extends Controller
 
       public function sellerDestroy($productId)
       {
+         //authorize logics in seller policy
+         $this->authorize('delete',Product::class);
+
         $product = Product::findOrFail($productId);
          
         if (empty($product)) {

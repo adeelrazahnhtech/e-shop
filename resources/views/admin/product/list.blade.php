@@ -37,12 +37,12 @@
                                 <td>{{ $product->description }}</td>
                                 <td>{{ $product->categoryWise->name }}</td>
                                 <td>
-                                    @if($product->admin)
-                                        {{ $product->adminType->roleType->role_type }}
-                                    @elseif($product->subAdminType)
-                                        {{ $product->subAdminType->roleType->role_type }}
-                                    @elseif($product->sellerType)
-                                        {{ $product->sellerType->roleType->role_type }}
+                                    @if($product->productable->roleType->role_type == 'Admin')
+                                        {{ $product->productable->roleType->role_type }}
+                                    @elseif($product->productable->roleType->role_type == 'Sub Admin')
+                                        {{ $product->productable->roleType->role_type }}
+                                    @elseif($product->productable->roleType->role_type == 'Seller')
+                                        {{ $product->productable->roleType->role_type }}
                                     @endif
                                 </td>
                                 <td>{{ $product->track_qty }}</td>

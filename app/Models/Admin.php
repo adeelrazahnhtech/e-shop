@@ -31,9 +31,14 @@ class Admin extends Authenticatable
       return $this->belongsToMany(Package::class,'admin_packages','admin_id','package_id');
     }
 
-
     public function reviews()
     {
        return $this->morphMany(Review::class ,'reviewable');
     }
+
+    public function product()
+    {
+      return $this->morphOne(Product::class, 'productable');
+    }
+    
 }

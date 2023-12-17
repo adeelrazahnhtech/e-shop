@@ -49,7 +49,7 @@ class UserController extends Controller
         if(auth('user')->attempt(['email'=> $request->email,'password' => $request->password]))
         {
           $user =  auth('user')->user();
-          if($user->role == 4 && $user->email_verified_at == 1)
+          if($user->role == 4 && $user->email_verified_at !== null)
           {
             return redirect()->route('user.profile');
           }else{

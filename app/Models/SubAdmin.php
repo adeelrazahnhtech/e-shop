@@ -35,4 +35,10 @@ class SubAdmin extends Authenticatable
     {
        return $this->morphMany(Review::class ,'reviewable');
     }
+
+
+    public function product()
+    {
+      return $this->morphOne(Product::class, 'productable');
+    }
 }
