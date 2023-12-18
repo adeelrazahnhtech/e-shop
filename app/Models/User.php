@@ -28,6 +28,11 @@ class User extends Authenticatable
         return $this->morphMany(Review::class ,'reviewable');
      }
 
+     public function packages()
+     {
+        return $this->belongsToMany(Package::class, 'user_packages', 'user_id', 'package_id')->withPivot('created_at');
+     }
+
      
     protected $fillable = [
         'role',

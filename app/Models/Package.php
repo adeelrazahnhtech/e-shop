@@ -16,7 +16,7 @@ class Package extends Model
         'duration_unit',
         ];
 
-    public function admins(){
-        return $this->belongsToMany(Admin::class,'admin_packages','admin_id','package_id');
-    }
+    // public function admins(){
+    //     return $this->belongsToMany(Admin::class,'admin_packages','admin_id','package_id');
+    // }
 }

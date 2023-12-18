@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateAdminProductRequest;
 use App\Models\Admin;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Seller;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -117,11 +118,13 @@ class ProductController extends Controller
             $validatedData['product_created'] = auth('sub_admin')->user()->roleType->role_type;
 
         }elseif (auth('seller')->check()){
+            // authorize logics in product policy
+            $this->authorize('update',Product::class);
             $user = auth('seller')->user();
             $validatedData['product_created'] = auth('seller')->user()->roleType->role_type;
         }
 
-        $product->$user->product()->update($validatedData);
+        $user->product()->update($validatedData);
 
         if(auth('admin')->check()){
             flash()->addSuccess('Successfully product updated');

@@ -26,11 +26,14 @@ class ReviewController extends Controller
 
     public function createAdmin($productId)
     {
-        $product = Product::with('orders')->find($productId);
-        if($product->sub_admin != null || $product->seller != null ){
+        $product = Product::with('orders', 'productable.roleType')->find($productId);
+
+        if ($product->productable->roleType && (auth('admin')->id() === $product->productable->roleType->id ||auth('sub_admin')->id() === $product->productable->roleType->id ||auth('seller')->id() === $product->productable->roleType->id)) {
+        } else {
             flash()->addError('You are not authorized to give the review');
             return redirect()->back();
         }
+
         return view('admin.review.create',compact('product'));
     }
 

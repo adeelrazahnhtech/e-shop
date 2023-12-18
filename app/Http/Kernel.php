@@ -59,6 +59,8 @@ class Kernel extends HttpKernel
         'seller.auth' => \App\Http\Middleware\SellerAuthenticate::class,
         'user.auth'=> \App\Http\Middleware\UserAuthenticate::class,
         'is_subscribe'=> \App\Http\Middleware\Subscription::class,
+        'show_package'=> \App\Http\Middleware\CheckPackage::class,
+        'product.owner' => \App\Http\Middleware\CheckOwnership::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,

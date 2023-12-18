@@ -1,5 +1,7 @@
 <?php
 
+use App\Facade\Greeting;
+use App\Facade\GreetingFacade;
 use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SubAdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserPackageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +26,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
+Route::get('/custom-facade', function () {
+    return response(GreetingFacade::greet(), 200);
+ })->name('custom-facade');
 
 Route::group(['prefix' => 'admin'],function(){
     Route::group(['middleware' => 'admin.guest'],function(){
@@ -124,7 +128,10 @@ Route::group(['prefix' => 'seller'],function(){
         Route::get('/products',[ProductController::class,'sellerIndex'])->name('seller.products.index');
         Route::get('/products/create',[ProductController::class,'sellerCreate'])->name('seller.products.create');
         Route::post('/products',[ProductController::class,'store'])->name('seller.products.store');
-        Route::get('/products/{product}/edit',[ProductController::class,'sellerEdit'])->name('seller.products.edit');
+        //
+        Route::middleware('product.owner')->group(function(){
+            Route::get('/products/{product}/edit',[ProductController::class,'sellerEdit'])->name('seller.products.edit');
+        });
         Route::put('/products/{product}',[ProductController::class,'update'])->name('seller.products.update');
         Route::delete('/products/delete/{product}',[ProductController::class,'sellerDestroy'])->name('seller.products.destroy');
 
@@ -146,10 +153,21 @@ Route::group(['prefix' => 'user'],function(){
     });
 
     Route::group(['middleware'=>'user.auth'],function(){
-        Route::middleware('is_subscribe')->group(function(){
-        });
-        Route::get('/profile',[UserController::class,'profile'])->name('user.profile');
         Route::get('/logout',[UserController::class,'logout'])->name('user.logout');
+
+        Route::middleware('is_subscribe')->group(function(){
+            Route::get('/profile',[UserController::class,'profile'])->name('user.profile');//1
+        });
+
+        //user-subscribe
+        Route::middleware('show_package')->group(function(){
+            Route::get('/package',[UserPackageController::class,'index'])->name('user.package');//2
+        });
+        //checkout user-subscribe
+        Route::get('/checkout/{packageId}',[UserPackageController::class,'createPackage'])->name('user.buy');//3
+        Route::get('/success',[UserPackageController::class,'storePackage'])->name('checkout.success');//4
+        Route::get('/cancel',[UserPackageController::class,'cancelPackage'])->name('checkout.cancel');//5
+
 
         //cart
         Route::get('/cart',[CartController::class,'index'])->name('user.cart');
