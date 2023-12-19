@@ -20,6 +20,7 @@ class ProductController extends Controller
     {
         // $products = Product::with('reviews','categoryWise','adminType.roleType','subAdminType.roleType','sellerType.roleType')->orderByDesc('id')->get();
         $products = Product::with('reviews','categoryWise','productable.roleType')->orderByDesc('id')->get();
+        
 
         return view('admin.product.list',compact('products'));
     }
