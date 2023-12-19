@@ -15,10 +15,38 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function collection()
+     {
+        $indexArrays =[ [1,2,3,4,5], [6,7,8,9,10], ];
+        $indexArray =[1,2,3,4,5];
+        $associativeArray = [['name'=>'sameer','age' => 23],['name'=>'umar','age' => 24]];
+        $collection = collect($associativeArray);  // create a new collection instance from an array
+     //    $multiplied = $collection->map(function ($item , $key ){  // it iterates over each element in the collection 
+     //     return $item * 2;
+     //     });
+         // $filtered = $collection->filter(function ($item , $key ){  // it filter the element in the collection based on callback
+         //     return $item > 2;
+         //     });
+         // $reduced = $collection->reduce(function ($carry , $item ){  // it reduces the collection to a single value in the collection 
+         //     return $carry + $item;
+         //     });
+         // $each = $collection->each(function ($item , $key ){  // it iterates over the collection 
+             //     return $item + $key;
+             //     });
+         // $contained = $collection->contains(3);  // it checks a given item is present in the collection  and it returns true or false
+         // $plucked = $collection->pluck('name');  // it fetchs the values of given key
+         $sorted = $collection->sortBy('name');  // it sorts the collection by the given key
+         $grouped = $collection->groupBy('name');  // it groups the collection by the given key
+         $all = $collection->all();  // it returns all the items in the collection as an array
+ 
+         dd($all);
+     }
      //admin
     public function index()
     {
         // $products = Product::with('reviews','categoryWise','adminType.roleType','subAdminType.roleType','sellerType.roleType')->orderByDesc('id')->get();
+       
         $products = Product::with('reviews','categoryWise','productable.roleType')->orderByDesc('id')->get();
         
 
